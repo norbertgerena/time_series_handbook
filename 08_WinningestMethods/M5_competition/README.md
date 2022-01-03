@@ -42,6 +42,16 @@ As with the original M5 competition, the objective is to minimize the forecastin
 *Honor Code: Unlike the original M5 competition, the evaluation set (last 28-day actual data) is already made available to entrants--mainly because M5 is already finished. While it is tempting to fit forecasting performance to the actual evaluation set, DO NOT, as this defeats the purpose of the competition.*
 
 
-### 
+### Leaderboards
+For easy comparison, the leaderboards and competition benchmarks are already presented as a markdown table in `M5_phdinds_leaderboards.ipynb`. Entrants may update the results with their own scores and method descriptions, supported by a full discussion of their entry similar to the `phdinds2024_entry` directory. Entries are expected to provide code that supports the reported WRMSSE in the leaderboards notebook. Ideally, this chapter will serve as a compilation of practical considerations, and best practices in forecasting sales data--and other similar time series of counts.
+
+
+### M5 Winningest Methods and Benchmarks
+
+
+### Other Competition Details
+
+
+### References
 
 
