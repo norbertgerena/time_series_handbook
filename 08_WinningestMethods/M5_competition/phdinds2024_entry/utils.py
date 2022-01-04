@@ -1,14 +1,16 @@
-"""Utility funcitons used for consumption forecasting.
+"""Utility funcitons used for M5 competition forecasting.
 Functions are specific to the preparation of inputs in
-a Multioutput Regression approach.
+a Multioutput Regression / Regression Chain approach using
+a LightGBM model.
 
-BY: Mike Dorosan and Basti Ibañez
+BY: Mike Dorosan, code based on Basti Ibañez
 DATE: Dec 2021
 """
 
 import pandas as pd
 import numpy as np
-
+import os
+import optuna
 
 def create_calendar_cols(dataframe, date_col='Date'):
     """Create new calendar categorical columns from a datetime-like series
@@ -124,7 +126,7 @@ def create_dataset(dataset, endo, exo_num=None, exo_cat=None, lookback=6, step=6
         if bool(exo_cat):
             variables = [endo] + sorted(exo_num) + sorted(exo_cat)
         else:
-            variables = [endo] + sorted(exo_num) # fixed bug variables = [endo] = exo_num
+            variables = [endo] + sorted(exo_num)
     else:
         if bool(exo_cat):
             variables = [endo] + sorted(exo_cat)
@@ -200,24 +202,9 @@ def create_dataset(dataset, endo, exo_num=None, exo_cat=None, lookback=6, step=6
       
     return predictors, targets, cat_cols_indices
 
-level_indexes = {
-    'Level1' : None,
-    'Level2': 'state_id', 
-    'Level3': 'store_id', 
-    'Level4': 'cat_id', 
-    'Level5': 'dept_id',
-    'Level6': ['state_id', 'cat_id'], 
-    'Level7' : ['state_id', 'dept_id'],
-    'Level8' : ['store_id', 'cat_id'],
-    'Level9' : ['store_id', 'dept_id'],
-    'Level10': ['item_id'],
-    'Level11': ['state_id', 'item_id'],
-    'Level12': ['item_id', 'store_id']
-}
-
-def generate_bu(level_id, forecast_df):
-    """Return forecasted dataframe of level_id using bottom up approach 
-    from a reference forecast dataframe of a bottom aggregation level
+def generate_bu(level_id, forecast_df, level_indexes):
+    """Return df of forecasts for level_id using bottom up approach from a 
+    reference forecast dataframe of a bottom/more granular aggregation level
     """
     index = level_indexes[level_id]
     if index:
@@ -226,7 +213,7 @@ def generate_bu(level_id, forecast_df):
         level_forecasts = forecast_df.sum().to_frame().T
     return level_forecasts
 
-def get_prop_averages(level_id, prop_reference, T):
+def get_prop_averages(level_id, level_indexes, prop_reference, T):
     """Returns the proportions of historical averages across a period T"""
     index = level_indexes[level_id]
     if index:
@@ -238,7 +225,7 @@ def get_prop_averages(level_id, prop_reference, T):
         raise "Inputted the top-most level. Try again."
         return None
     
-def get_ave_proportions(level_id, prop_reference, T):
+def get_ave_proportions(level_id, level_indexes, prop_reference, T):
     """Returns the average historical proportions across a period T"""
     index = level_indexes[level_id]
     if index:
@@ -251,11 +238,44 @@ def get_ave_proportions(level_id, prop_reference, T):
         return None
     
 def generate_td(level_id, forecast_df, method, **kwargs):
-    """Return forecasted dataframe of level_id using top_down approach 
-    from a reference/base forecast dataframe of a higher aggregation level
+    """Return df of forecasts for level_id using top_down approach from a 
+    reference/base forecast dataframe at a less granualar aggregation level
     """
     pjs = method(level_id, **kwargs)
     yts = forecast_df.sum()
-    index = level_indexes[level_id]
-    level_forecasts = yts.apply(lambda x: x*pjs).round().astype(int).T
+    index = kwargs['level_indexes'][level_id]
+    level_forecasts = yts.apply(lambda x: x * pjs).round().astype(int).T
     return level_forecasts
+
+level_indexes = {
+    'Level1' : None,
+    'Level2': 'state_id', 
+    'Level3': 'store_id', 
+    'Level4': 'cat_id', 
+    'Level5': 'dept_id',
+    'Level6': ['state_id', 'cat_id'], 
+    'Level7' : ['state_id', 'dept_id'],
+    'Level8' : ['store_id', 'cat_id'],
+    'Level9' : ['store_id', 'dept_id'],
+    'Level10': ['item_id'],
+    'Level11': ['item_id', 'state_id'],
+    'Level12': ['item_id', 'store_id']
+}
+
+
+def inspect_failed_retrain(failed_series_list):
+    """Display optuna study trials dataframe for inspection."""
+    print(failed_series_list)
+    
+    # inspec params of failed retrains
+    for series in failed_series:
+        print(series)
+        study_name = f'{series[0]}-{series[1]}'
+        save_dir = os.path.join(root, 'tuning', f'{day}-tuning')
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        fname = os.path.join(save_dir, f'{study_name}.db')
+        study = optuna.load_study(study_name=study_name,
+                                storage=f'sqlite:///{fname}')
+        res_df = study.trials_dataframe()
+        display(res_df)

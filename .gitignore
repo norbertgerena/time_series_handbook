@@ -2,7 +2,12 @@
 08_WinningestMethods/M5/phdinds2024_entry/predictions/
 08_WinningestMethods/M5/phdinds2024_entry/trained_models/
 08_WinningestMethods/M5/phdinds2024_entry/tuning/
+data/M5_dataset/
+08_WinningestMethods/M5_competition/phdinds2024_entry/predictions/
+08_WinningestMethods/M5_competition/phdinds2024_entry/trained_models/
+08_WinningestMethods/M5_competition/phdinds2024_entry/tuning/
 data/m5/
+data/M5_dataset/
 
 
 _build/
