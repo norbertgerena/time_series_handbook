@@ -31,7 +31,12 @@ The series and supporting information needed for this competition are contained 
 | weights_evaluation.csv | Final importance of every series in each aggregation level as determined by the `weight` column of this dataframe. These weights are used in calculating the WRMSSE of an entry model (forecaster). | Level_id (e.g., Level12), Agg_Level_1 (e.g., HOBBIES_1_001), Agg_Level_2 (e.g., CA_1), Dollar_Sales (e.g., 276.54), weight (e.g., 0.000071) |
 | weights_validation.csv | Preliminary importance of every series in each aggregation level as determined by the `weight` column of this dataframe. These weights are used in calculating the WRMSSE of an entry model (forecaster). | Level_id (e.g., Level12), Agg_Level_1 (e.g., HOBBIES_1_001), Agg_Level_2 (e.g., CA_1), Dollar_Sales (e.g., 224.94), weight (e.g., 0.000060) |
 
-These files can be found in the the `data/M5_dataset` directory of this repo.
+These files can be found in the the `data/m5/raw` directory of this repo. (included in .gitignore)
+
+## Data Source
+
+M5 data can be found in the following google drive link:
+https://drive.google.com/drive/folders/1D6EWdVSaOtrP1LEFh1REjI3vej6iUS_4
 
 
 ## Competition Mechanics
@@ -39,21 +44,21 @@ These files can be found in the the `data/M5_dataset` directory of this repo.
 ### Metrics and Evaluation : *Begin with the end in mind*
 As with the original M5 competition, the objective is to minimize the forecasting error--measured by the Weighted Root Mean-Squared Scaled Error (RMSSE). This metric scales the usual root mean-squared error and aggregates the forecasting error of all the 42,840 forecasts (1 per series) in a weighted manner. These weights are provided by the `M5 Competition` and are based on the Dollar amount of sales for each of the 42,840 series. *Care must be taken into account in evaluating the results due to differences in `weights_evaluation.csv` and `weights_validation.csv`--differences are due to live updating of the proportion dollar amount of sales in the days that followed*. The former SHOULD be used in evaluating the final (entry) forecasts' WRMSSE while the latter for tuning the model--for entries that use WRMSSE as a tuning objective.
 
+WRMSEE formula:
+
+$$
+\text{WRMSSE} = \Sigma_{i=1}^{42,840} w_i * \text{RMSSE}
+$$
+
 *Honor Code: Unlike the original M5 competition, the evaluation set (last 28-day actual data) is already made available to entrants--mainly because M5 is already finished. While it is tempting to fit forecasting performance to the actual evaluation set, DO NOT, as this defeats the purpose of the competition.*
 
 
 ### Leaderboards
-For easy comparison, the leaderboards and competition benchmarks are already presented as a markdown table in `M5_phdinds_leaderboards.ipynb`. Entrants may update the results with their own scores and method descriptions, supported by a full discussion of their entry similar to the `phdinds2024_entry` directory. Entries are expected to provide code that supports the reported WRMSSE in the leaderboards notebook. Ideally, this chapter will serve as a compilation of practical considerations, and best practices in forecasting sales data--and other similar time series of counts.
-
-
-### M5 Winningest Methods and Benchmarks
-
-
-
-### Other Competition Details
-
+For easy comparison, the leaderboards and competition benchmarks are already presented as a `pandas` table in `M5_phdinds_leaderboards.ipynb`. Entrants may update the results with their own scores and method descriptions, supported by a full discussion of their entry similar to the `phdinds2024_entry` directory. Entries are expected to provide code that supports the reported WRMSSE in the leaderboards notebook. Ideally, this chapter will serve as a compilation of practical considerations, and best practices in forecasting sales data--and other similar time series of counts.
 
 
 ### References
+For more information on the competition mechanics see: https://github.com/Mcompetitions/M5-methods/blob/master/M5-Competitors-Guide.pdf
 
+Additionally, winningest methods for M5 are dicussed in the same repository: https://github.com/Mcompetitions/M5-methods
 
