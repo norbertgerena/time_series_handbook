@@ -258,7 +258,7 @@ level_indexes = {
     'Level8' : ['store_id', 'cat_id'],
     'Level9' : ['store_id', 'dept_id'],
     'Level10': ['item_id'],
-    'Level11': ['item_id', 'state_id'],
+    'Level11': ['state_id', 'item_id'],
     'Level12': ['item_id', 'store_id']
 }
 
