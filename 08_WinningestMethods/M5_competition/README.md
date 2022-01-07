@@ -46,10 +46,8 @@ As with the original M5 competition, the objective is to minimize the forecastin
 
 WRMSEE formula:
 
-$$
-\text{WRMSSE} = \Sigma_{i=1}^{42,840} w_i * \text{RMSSE}
-$$
-
+<img src="https://latex.codecogs.com/gif.latex? \text{WRMSSE} = \Sigma_{i=1}^{42,840} w_i * \text{RMSSE} " /> 
+          
 *Honor Code: Unlike the original M5 competition, the evaluation set (last 28-day actual data) is already made available to entrants--mainly because M5 is already finished. While it is tempting to fit forecasting performance to the actual evaluation set, DO NOT, as this defeats the purpose of the competition.*
 
 
