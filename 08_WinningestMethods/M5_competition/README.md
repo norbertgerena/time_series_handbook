@@ -45,7 +45,9 @@ https://drive.google.com/drive/folders/1D6EWdVSaOtrP1LEFh1REjI3vej6iUS_4
 As with the original M5 competition, the objective is to minimize the forecasting error--measured by the Weighted Root Mean-Squared Scaled Error (RMSSE). This metric scales the usual root mean-squared error and aggregates the forecasting error of all the 42,840 forecasts (1 per series) in a weighted manner. These weights are provided by the `M5 Competition` and are based on the Dollar amount of sales for each of the 42,840 series. *Care must be taken into account in evaluating the results due to differences in `weights_evaluation.csv` and `weights_validation.csv`--differences are due to live updating of the proportion dollar amount of sales in the days that followed*. The former SHOULD be used in evaluating the final (entry) forecasts' WRMSSE while the latter for tuning the model--for entries that use WRMSSE as a tuning objective.
 
 WRMSEE formula:
-![equation](https://latex.codecogs.com/svg.image?%5Ctext%7BWRMSSE%7D%20=%20%5CSigma_%7Bi=1%7D%5E%7B42,840%7D%20w_i%20*%20%5Ctext%7BRMSSE%7D%20)
+
+
+![equation](https://latex.codecogs.com/svg.image?%5Cbg_white%20%5Ctext%7BWRMSSE%7D%20=%20%5CSigma_%7Bi=1%7D%5E%7B42,840%7D%20w_i%20*%20%5Ctext%7BRMSSE%7D%20)
           
 *Honor Code: Unlike the original M5 competition, the evaluation set (last 28-day actual data) is already made available to entrants--mainly because M5 is already finished. While it is tempting to fit forecasting performance to the actual evaluation set, DO NOT, as this defeats the purpose of the competition.*
 
