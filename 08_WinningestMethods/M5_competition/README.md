@@ -47,7 +47,7 @@ As with the original M5 competition, the objective is to minimize the forecastin
 WRMSEE formula:
 
 
-![equation](https://latex.codecogs.com/svg.image?%5Cbg_white%20%5Cinline%20%5Ctext%7BWRMSSE%7D%20=%20%5CSigma_%7Bi=1%7D%5E%7B42,840%7D%20w_i%20*%20%5Ctext%7BRMSSE%7D%20)
+![equation](https://latex.codecogs.com/png.image?%5Cdpi%7B80%7D%20%5Cbg_white%20%5Cinline%20%5Ctext%7BWRMSSE%7D%20=%20%5CSigma_%7Bi=1%7D%5E%7B42,840%7D%20w_i%20*%20%5Ctext%7BRMSSE%7D%20)
           
 *Honor Code: Unlike the original M5 competition, the evaluation set (last 28-day actual data) is already made available to entrants--mainly because M5 is already finished. While it is tempting to fit forecasting performance to the actual evaluation set, DO NOT, as this defeats the purpose of the competition.*
 
